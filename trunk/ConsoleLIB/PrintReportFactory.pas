@@ -3,7 +3,7 @@ unit PrintReportFactory;
 interface
 
 uses
-  MyClassMgr, uIReporter, uIObjectList, ObjList, ReporterLoader, superobject,
+  uIReporter, uIObjectList, ObjList, ReporterLoader, superobject,
   SysUtils;
 
 
