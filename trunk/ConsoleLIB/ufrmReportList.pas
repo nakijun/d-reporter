@@ -5,8 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBClient, ActnList, ImgList,
-  uFieldCreator, ufrmReportEditor, ComObj, uDataSetTools, uSNTools,
-  uIFileAccess, OSUtils, uJSonTools, uFileTools, superobject, uIReporter,
+  uFieldCreator, ufrmReportEditor, ComObj, uSNTools,
+  uIFileAccess, uJSonTools, uFileTools, superobject, uIReporter,
   uIIntfList, Grids, DBGrids, DB, StdCtrls, Buttons, ExtCtrls, KeyStream,
   uKeyStreamTools, uKeyStreamCoder, uMsgTools, uStdIntf, StdInterface, Menus,
   FileLogger;
@@ -565,7 +565,7 @@ var
   lvIsDeleted:Boolean;
   lvKey, lvTempStr:String;
 begin
-  lvBookmark:=TDataSetTools.DisableControlsAndGetBookMark(cdsMain);
+  cdsMain.DisableControls;
   try
     if pvLocate then
       lvKey := pvCDS.FieldByName('FKey').AsString;
@@ -607,7 +607,7 @@ begin
       end;
     end;
   finally
-    TDataSetTools.EnableControlsAndFreeBookMark(cdsMain, lvBookmark);
+    cdsMain.EnableConstraints;
   end;
 
   if pvLocate then cdsMain.Locate('FKey', lvKey, []);
