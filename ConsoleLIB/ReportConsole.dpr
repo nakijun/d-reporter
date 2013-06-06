@@ -29,7 +29,12 @@ uses
   uIObjectList in '..\Utils\uIObjectList.pas',
   uCore in '..\Utils\uCore.pas',
   FileLogger in '..\Utils\FileLogger.pas',
-  uLastErrorTools in '..\Utils\uLastErrorTools.pas';
+  uLastErrorTools in '..\Utils\uLastErrorTools.pas',
+  superobject in '..\Utils\superobject.pas',
+  uJSonTools in '..\Utils\uJSonTools.pas',
+  KeyStream in '..\Utils\KeyStream.pas',
+  uStreamCoder in '..\Utils\uStreamCoder.pas',
+  uKeyStreamCoder in '..\Utils\uKeyStreamCoder.pas';
 
 {$R *.res}
 
