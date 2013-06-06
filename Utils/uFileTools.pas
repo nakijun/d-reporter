@@ -78,7 +78,7 @@ begin
   FreeMem(szTempFile);
 
   //É¾³ýÁÙÊ±ÎÄ¼þ
-  DeleteFile(PAnsiChar(result));
+  DeleteFile(PChar(result));
   if pvExt <> '' then
   begin
     Result := ExtractFilePath(Result) + ExtractFileNameWithoutExt(Result) + pvExt;
@@ -222,17 +222,18 @@ end;
 
 class procedure TFileTools.OpenDirectory(const Path:String);
 begin
-  ShellExecute(0,'open','Explorer.exe',PAnsiChar(Path),nil,1);
+  ShellExecute(0,'open','Explorer.exe',PChar(Path),nil,1);
 end;
 
 class function TFileTools.PathWithBackslash(const Path: string): string;
 var
   ilen: Integer;
+
 begin
   Result := Path;
   ilen := Length(Result);
   if (ilen > 0) and not (Result[ilen] in ['\', '/']) then
-    AppendStr(Result, '\');
+    Result:=Result + '\';
 end;
 
 class function TFileTools.PathWithoutBackslash(const Path: string): string;
