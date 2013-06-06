@@ -82,7 +82,7 @@ type
     
     FJSonConfig:ISuperObject;
 
-    FReportID:String;
+    FReportID:AnsiString;
 
     //
     FTypeConfig:ISuperObject;
@@ -107,10 +107,10 @@ type
 
 
     //保存列表
-    procedure saveList(pvCDS: TClientDataSet = nil; pvReportID: String = '');
+    procedure saveList(pvCDS: TClientDataSet = nil; pvReportID: AnsiString = '');
 
     //
-    procedure reloadList(pvCDS: TClientDataSet = nil; pvReportID: String = '');
+    procedure reloadList(pvCDS: TClientDataSet = nil; pvReportID: AnsiString = '');
 
     procedure OnCaptionGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
@@ -224,6 +224,7 @@ type
 
   public
     constructor Create(pvApplicationHandle: THandle); overload;
+    constructor Create(AOwner: TComponent); overload; override;
     destructor Destroy; override;
 
     { Public declarations }
@@ -236,7 +237,7 @@ var
 implementation
 
 uses
-  PrintReportFactory, uCdsTools;
+  PrintReportFactory, uCdsTools, uLastErrorTools;
 
 {$R *.dfm}
 
@@ -464,6 +465,13 @@ begin
   end;
 end;
 
+constructor TfrmReportList.Create(AOwner: TComponent);
+begin
+  FDefaultID :='';
+  FJSonConfig := SO(); 
+  inherited;
+end;
+
 procedure TfrmReportList.createRepListFields(pvCDS: TClientDataSet;
     pvAssignEvent: Boolean = true);
 var
@@ -496,7 +504,6 @@ function TfrmReportList.createReporter(pvID: PAnsiChar): IReporter;
 var
   lvID:String;
   lvConsoleSetter:IReportConsoleSetter;
-
 var
   lvReporter:IReporter;
 var
@@ -504,40 +511,50 @@ var
   lvFileID:String;
   lvData:ISuperObject;
 begin
-  checkPrepare;
+  try
+    checkPrepare;
 
-  lvID := pvID;
-  if lvID <> '' then
-  begin
-    if not cdsMain.Locate('FKey', lvID, []) then
+    lvID := pvID;
+    if lvID <> '' then
     begin
-      raise Exception.Create('没有找到对应的报表!');
-    end;
-  end else
-  begin
-    if cdsMain.RecordCount = 0 then
+      if not cdsMain.Locate('FKey', lvID, []) then
+      begin
+        raise Exception.Create('没有找到对应的报表!');
+      end;
+    end else
     begin
-      raise Exception.Create('没有找到任何的报表!');
+      if cdsMain.RecordCount = 0 then
+      begin
+        raise Exception.Create('没有找到任何的报表!');
+      end;
+      if not LocalDefault then cdsMain.First;
     end;
-    if not LocalDefault then cdsMain.First;
+
+    if cdsMain.FieldByName('FKey').AsString = '' then raise Exception.Create('没有选取任何报表!');
+    if FFileAccess = nil then raise Exception.Create('缺少文件操作接口!');
+    lvTempFile := TFileTools.createTempFileName('rep', '.rep');
+    lvFileID :=checkGetRFileName(cdsMain);
+    FFileAccess.getFile(PAnsiChar(lvFileID), PAnsiChar(lvTempFile), 'report', False);
+
+    lvReporter := getCurrentReporter(cdsMain);
+    if lvReporter.QueryInterface(IReportConsoleSetter, lvConsoleSetter) = S_OK then
+    begin
+      lvConsoleSetter.setReportConsole(Self);
+    end;
+
+
+    lvReporter.Clear;
+    lvReporter.setDesignFile(PAnsiChar(lvTempFile));
+    lvReporter.setDataList(FDataIntf);
+
+    Result := lvReporter;
+  except
+    on E:Exception do
+    begin
+      TLastErrorTools.setLastErrorINfo(-1, E.Message);
+      TFileLogger.instance.logErrMessage('createReporter时出现异常' + e.Message);
+    end;
   end;
-
-  if cdsMain.FieldByName('FKey').AsString = '' then raise Exception.Create('没有选取任何报表!');
-  if FFileAccess = nil then raise Exception.Create('缺少文件操作接口!');
-  lvTempFile := TFileTools.createTempFileName('rep', '.rep');
-  lvFileID :=checkGetRFileName(cdsMain);
-  FFileAccess.getFile(PAnsiChar(lvFileID), PAnsiChar(lvTempFile), 'report', False);
-
-  Result := getCurrentReporter(cdsMain);
-  if Result.QueryInterface(IReportConsoleSetter, lvConsoleSetter) = S_OK then
-  begin
-    lvConsoleSetter.setReportConsole(Self);
-  end;
-
-
-  Result.Clear;
-  Result.setDesignFile(PAnsiChar(lvTempFile));
-  Result.setDataList(FDataIntf);   
 end;
 
 procedure TfrmReportList.Data2UI(pvCDS: TClientDataSet; pvLocate: Boolean =
@@ -906,7 +923,7 @@ var
   lvReportID:String;
 
   lvTempFile:String;
-  lvFileID:String;
+  lvFileID:AnsiString;
   lvData:ISuperObject;
   lvInfo:String;
 
@@ -956,13 +973,15 @@ begin
       begin
         if lvCDS.Locate('FKey', lvRec.S['fkey'], []) then
         begin
-          TJSonTools.CopyDataRecordFromJsonData(lvCDS, lvRec, '', 'FSN');
+          lvSN := lvCDS.FieldByName('FSN').AsInteger;
+          TJSonTools.CopyDataRecordFromJsonData(lvCDS, lvRec);
+          lvCDS.FieldByName('FSN').AsInteger := lvSN;
         end else
         begin
           lvSN := TSNTools.GetNextSNIndex(lvCDS, 'FSN', -1);
           lvCDS.Append;
           self.cds4UpdateAfterInsert(lvCDS);
-          TJSonTools.CopyDataRecordFromJsonData(lvCDS, lvRec, '', 'FSN');
+          TJSonTools.CopyDataRecordFromJsonData(lvCDS, lvRec);
           lvCDS.FieldByName('FSN').AsInteger := lvSN;
         end;
       end;
@@ -1098,7 +1117,7 @@ end;
 procedure TfrmReportList.Prepare;
 begin
   try
-    if FJSonConfig <> nil then
+    if (FJSonConfig <> nil) and (FJSonConfig.O['showEspecial'] <> nil) then
     begin
       FshowEspecial := FJSonConfig.B['showEspecial'];
     end else
@@ -1164,10 +1183,10 @@ begin
 end;
 
 procedure TfrmReportList.reloadList(pvCDS: TClientDataSet = nil; pvReportID:
-    String = '');
+    AnsiString = '');
 var
   lvData:ISuperObject;
-  lvTempFile, lvReportID:String;
+  lvTempFile, lvReportID:AnsiString;
   lvCDS:TClientDataSet;
 begin
   lvCDS := pvCDS;
@@ -1213,9 +1232,9 @@ begin
 end;
 
 procedure TfrmReportList.saveList(pvCDS: TClientDataSet = nil; pvReportID:
-    String = '');
+    AnsiString = '');
 var
-  lvTempFile, lvReportID:String;
+  lvTempFile, lvReportID:AnsiString;
   lvCDS:TClientDataSet;
 begin
   lvCDS := pvCDS;
