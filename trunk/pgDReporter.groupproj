@@ -1,64 +1,74 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectGuid>{5fdf91ee-53ad-40d6-8034-2a20765e4f01}</ProjectGuid>
-  </PropertyGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Projects Include="ConsoleLIB\ReportConsole.dproj" />
-    <Projects Include="Demo\PrintReportTester.dproj" />
-    <Projects Include="Reporter\FastReport\FastReporter.dproj" />
-    <Projects Include="Reporter\RMReport\RMReporter.dproj" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <Borland.Personality>Default.Personality</Borland.Personality>
-    <Borland.ProjectType />
-    <BorlandProject>
-  <BorlandProject xmlns=""> <Default.Personality> </Default.Personality> </BorlandProject></BorlandProject>
-  </ProjectExtensions>
-  <Target Name="ReportConsole">
-    <MSBuild Projects="ConsoleLIB\ReportConsole.dproj" Targets="" />
-  </Target>
-  <Target Name="ReportConsole:Clean">
-    <MSBuild Projects="ConsoleLIB\ReportConsole.dproj" Targets="Clean" />
-  </Target>
-  <Target Name="ReportConsole:Make">
-    <MSBuild Projects="ConsoleLIB\ReportConsole.dproj" Targets="Make" />
-  </Target>
-  <Target Name="PrintReportTester">
-    <MSBuild Projects="Demo\PrintReportTester.dproj" Targets="" />
-  </Target>
-  <Target Name="PrintReportTester:Clean">
-    <MSBuild Projects="Demo\PrintReportTester.dproj" Targets="Clean" />
-  </Target>
-  <Target Name="PrintReportTester:Make">
-    <MSBuild Projects="Demo\PrintReportTester.dproj" Targets="Make" />
-  </Target>
-  <Target Name="RMReporter">
-    <MSBuild Projects="Reporter\RMReport\RMReporter.dproj" Targets="" />
-  </Target>
-  <Target Name="RMReporter:Clean">
-    <MSBuild Projects="Reporter\RMReport\RMReporter.dproj" Targets="Clean" />
-  </Target>
-  <Target Name="RMReporter:Make">
-    <MSBuild Projects="Reporter\RMReport\RMReporter.dproj" Targets="Make" />
-  </Target>
-  <Target Name="FastReporter">
-    <MSBuild Projects="Reporter\FastReport\FastReporter.dproj" Targets="" />
-  </Target>
-  <Target Name="FastReporter:Clean">
-    <MSBuild Projects="Reporter\FastReport\FastReporter.dproj" Targets="Clean" />
-  </Target>
-  <Target Name="FastReporter:Make">
-    <MSBuild Projects="Reporter\FastReport\FastReporter.dproj" Targets="Make" />
-  </Target>
-  <Target Name="Build">
-    <CallTarget Targets="ReportConsole;PrintReportTester;RMReporter;FastReporter" />
-  </Target>
-  <Target Name="Clean">
-    <CallTarget Targets="ReportConsole:Clean;PrintReportTester:Clean;RMReporter:Clean;FastReporter:Clean" />
-  </Target>
-  <Target Name="Make">
-    <CallTarget Targets="ReportConsole:Make;PrintReportTester:Make;RMReporter:Make;FastReporter:Make" />
-  </Target>
-  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+    <PropertyGroup>
+        <ProjectGuid>{5fdf91ee-53ad-40d6-8034-2a20765e4f01}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ConsoleLIB\ReportConsole.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Demo\PrintReportTester.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Reporter\RMReport\RMReporter.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Reporter\FastReport\FastReporter.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <BorlandProject>
+                <Default.Personality/>
+            </BorlandProject>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ReportConsole">
+        <MSBuild Projects="ConsoleLIB\ReportConsole.dproj"/>
+    </Target>
+    <Target Name="ReportConsole:Clean">
+        <MSBuild Projects="ConsoleLIB\ReportConsole.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ReportConsole:Make">
+        <MSBuild Projects="ConsoleLIB\ReportConsole.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PrintReportTester">
+        <MSBuild Projects="Demo\PrintReportTester.dproj"/>
+    </Target>
+    <Target Name="PrintReportTester:Clean">
+        <MSBuild Projects="Demo\PrintReportTester.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PrintReportTester:Make">
+        <MSBuild Projects="Demo\PrintReportTester.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RMReporter">
+        <MSBuild Projects="Reporter\RMReport\RMReporter.dproj"/>
+    </Target>
+    <Target Name="RMReporter:Clean">
+        <MSBuild Projects="Reporter\RMReport\RMReporter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RMReporter:Make">
+        <MSBuild Projects="Reporter\RMReport\RMReporter.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FastReporter">
+        <MSBuild Projects="Reporter\FastReport\FastReporter.dproj"/>
+    </Target>
+    <Target Name="FastReporter:Clean">
+        <MSBuild Projects="Reporter\FastReport\FastReporter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FastReporter:Make">
+        <MSBuild Projects="Reporter\FastReport\FastReporter.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ReportConsole;PrintReportTester;RMReporter;FastReporter"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ReportConsole:Clean;PrintReportTester:Clean;RMReporter:Clean;FastReporter:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ReportConsole:Make;PrintReportTester:Make;RMReporter:Make;FastReporter:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
