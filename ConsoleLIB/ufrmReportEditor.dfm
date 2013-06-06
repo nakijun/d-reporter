@@ -46,8 +46,6 @@ object frmReportEditor: TfrmReportEditor
     Caption = #31169#26377#25253#34920'('#33258#24049#21487#35265')'
     DataField = 'FIsPrivate'
     TabOrder = 1
-    ValueChecked = 'True'
-    ValueUnchecked = 'False'
   end
   object dbchkFIsEspecial: TDBCheckBox
     Left = 96
@@ -57,8 +55,6 @@ object frmReportEditor: TfrmReportEditor
     Caption = #25935#24863#25968#25454#25253#34920
     DataField = 'FIsEspecial'
     TabOrder = 2
-    ValueChecked = 'True'
-    ValueUnchecked = 'False'
   end
   object btnOK: TButton
     Left = 199
@@ -84,7 +80,6 @@ object frmReportEditor: TfrmReportEditor
     Width = 193
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 5
   end
 end
