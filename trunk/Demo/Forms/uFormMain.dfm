@@ -84,7 +84,6 @@ object FormMain: TFormMain
       Top = 8
       Width = 115
       Height = 21
-      ItemHeight = 13
       ItemIndex = 0
       TabOrder = 5
       Text = #24352#19977
@@ -206,6 +205,10 @@ object FormMain: TFormMain
     object TabSheet2: TTabSheet
       Caption = 'TabSheet2'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
   object dsMain: TDataSource
