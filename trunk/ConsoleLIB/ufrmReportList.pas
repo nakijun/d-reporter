@@ -9,7 +9,7 @@ uses
   uIFileAccess, uJSonTools, uFileTools, superobject, uIReporter,
   uIIntfList, Grids, DBGrids, DB, StdCtrls, Buttons, ExtCtrls, KeyStream,
   uKeyStreamTools, uKeyStreamCoder, uMsgTools, uStdIntf, StdInterface, Menus,
-  FileLogger;
+  FileLogger, uDataSetTools;
 
 type
   TfrmReportList = class(TForm

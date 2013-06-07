@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, 
   DB, uDBTools, Mask, DBCtrls, StdCtrls, superobject,
-  ObjRecycle, SOWrapper;
+  SOWrapper, ObjectGC;
 
 type
   TfrmReportEditor = class(TForm)
@@ -18,14 +18,11 @@ type
     btnOK: TButton;
     btnCancel: TButton;
     cbbTypeID: TComboBox;
-    procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
     FTypeConfig:ISuperObject;
-
-    FRecyle: TObjectRecycle;
 
     procedure Data2UI;
     procedure UI2Data;
@@ -73,14 +70,8 @@ end;
 
 destructor TfrmReportEditor.Destroy;
 begin
-  FRecyle.Clear;
-  FRecyle.Free;
+  TObjectGC.instance.clearObjects4Owner(Self);
   inherited Destroy;
-end;
-
-procedure TfrmReportEditor.FormCreate(Sender: TObject);
-begin
-  FRecyle := TObjectRecycle.Create();
 end;
 
 procedure TfrmReportEditor.btnCancelClick(Sender: TObject);
@@ -122,7 +113,9 @@ begin
   self.cbbTypeID.Items.Clear;
   for lvItem in FTypeConfig.O['list'] do
   begin
-    self.cbbTypeID.Items.AddObject(lvItem.S['remark'], FRecyle.Add(TSOWrapper.Create(lvItem)));
+    self.cbbTypeID.Items.AddObject(lvItem.S['remark'],
+      TObjectGC.instance.add(TSOWrapper.Create(lvItem), Self)
+      );
   end;                                                                                       
 end;
 
