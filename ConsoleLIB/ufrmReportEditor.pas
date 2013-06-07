@@ -5,8 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, 
-  DB, uDBTools, Mask, DBCtrls, StdCtrls, superobject,
-  SOWrapper, ObjectGC;
+  DB, Mask, DBCtrls, StdCtrls, superobject,
+  SOWrapper, ObjectGC, uDataSetTools;
 
 type
   TfrmReportEditor = class(TForm)
@@ -41,8 +41,6 @@ var
 
 implementation
 
-uses
-  uDataSetTools;
 
 {$R *.dfm}
 
@@ -102,7 +100,7 @@ end;
 
 procedure TfrmReportEditor.setDataSource(pvDataSource:TDataSource);
 begin
-  TDBTools.setDataSource(Self, pvDataSource);    
+  TDataSetTools.setDataSource(Self, pvDataSource);    
 end;
 
 procedure TfrmReportEditor.setTypeConfig(pvConfig:ISuperObject);
