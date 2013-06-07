@@ -157,7 +157,12 @@ begin
   FDeltaDS.SetProp(dspropXML_STREAMMODE, xmlON);
   TCustomClientDataSetCrack(pvCds).Check(FDeltaDS.StreamDS(DataPacket));
   DataPacketToVariant(DataPacket, VarPacket);
+{$if CompilerVersion>= 23}
   Result := VariantArrayToString(VarPacket);
+{$ELSE}
+  Result := VariantArrayToString(VarPacket);
+{$ifend}
+
 end;
 
 class procedure TCdsTools.RefreshCurrentRecord(const pvCds:
