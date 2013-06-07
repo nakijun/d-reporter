@@ -38,7 +38,9 @@ uses
   uDataSetTools in '..\Utils\uDataSetTools.pas',
   uSNTools in '..\Utils\uSNTools.pas',
   SOWrapper in '..\Utils\SOWrapper.pas',
-  ObjectGC in '..\Utils\ObjectGC.pas';
+  ObjectGC in '..\Utils\ObjectGC.pas',
+  uKeyStreamTools in '..\Utils\uKeyStreamTools.pas',
+  uFieldCreator in '..\Utils\uFieldCreator.pas';
 
 {$R *.res}
 
