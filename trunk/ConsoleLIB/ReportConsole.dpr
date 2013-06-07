@@ -41,7 +41,8 @@ uses
   ObjectGC in '..\Utils\ObjectGC.pas',
   uKeyStreamTools in '..\Utils\uKeyStreamTools.pas',
   uFieldCreator in '..\Utils\uFieldCreator.pas',
-  uIIntfList in '..\Utils\uIIntfList.pas';
+  uIIntfList in '..\Utils\uIIntfList.pas',
+  uCdsTools in '..\Utils\uCdsTools.pas';
 
 {$R *.res}
 
