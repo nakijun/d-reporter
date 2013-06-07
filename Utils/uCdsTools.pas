@@ -3,7 +3,7 @@ unit uCdsTools;
 interface
 
 uses
-  DB, DBClient, uDataSetTools, DSIntf, superobject;
+  DB, DBClient, uDataSetTools, DSIntf, superobject, SysUtils, Windows;
 
 type
   TCdsTools = class(TObject)
@@ -150,6 +150,8 @@ var
   FDeltaDS          : IDSBase;
   DataPacket        : TDataPacket;
   VarPacket         : OleVariant;
+  lvBytes:TBytes;
+  lvData:AnsiString;
 begin
   pvCds.CheckBrowseMode;
   TCustomClientDataSetCrack(pvCds).Check(
@@ -158,7 +160,10 @@ begin
   TCustomClientDataSetCrack(pvCds).Check(FDeltaDS.StreamDS(DataPacket));
   DataPacketToVariant(DataPacket, VarPacket);
 {$if CompilerVersion>= 23}
-  Result := VariantArrayToString(VarPacket);
+  lvBytes := DSIntf.VariantArrayToBytes(VarPacket);
+  SetLength(lvData, Length(lvBytes));
+  CopyMemory(@lvData[1], @lvBytes[0], Length(lvBytes));
+  Result := lvData;
 {$ELSE}
   Result := VariantArrayToString(VarPacket);
 {$ifend}
