@@ -40,7 +40,8 @@ uses
   SOWrapper in '..\Utils\SOWrapper.pas',
   ObjectGC in '..\Utils\ObjectGC.pas',
   uKeyStreamTools in '..\Utils\uKeyStreamTools.pas',
-  uFieldCreator in '..\Utils\uFieldCreator.pas';
+  uFieldCreator in '..\Utils\uFieldCreator.pas',
+  uIIntfList in '..\Utils\uIIntfList.pas';
 
 {$R *.res}
 
