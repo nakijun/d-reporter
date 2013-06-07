@@ -1,0 +1,33 @@
+object frmReportPreView: TfrmReportPreView
+  Left = 0
+  Top = 0
+  Caption = #39044#35272
+  ClientHeight = 481
+  ClientWidth = 709
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ppViewer1: TppViewer
+    Left = 0
+    Top = 0
+    Width = 709
+    Height = 481
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clBtnShadow
+    PageColor = clWhite
+    ZoomPercentage = 100
+    ZoomSetting = zs100Percent
+    ExplicitLeft = 80
+    ExplicitTop = 48
+    ExplicitWidth = 320
+    ExplicitHeight = 120
+  end
+end
