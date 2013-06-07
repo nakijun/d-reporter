@@ -8,6 +8,7 @@ uses
 type
   TFieldCreator = class(TObject)
   public
+    class function stringCanName(pvString:AnsiString): Boolean;
     class function CreateField(const pvDataSet: TDataSet; const pvFieldName:
         string; const pvFieldType: TFieldType; const pvSize: Integer = 0): TField;
 
@@ -15,8 +16,6 @@ type
 
 implementation
 
-uses
-  uStringTools;
 
 class function TFieldCreator.CreateField(const pvDataSet: TDataSet; const
     pvFieldName: string; const pvFieldType: TFieldType; const pvSize: Integer =
@@ -88,10 +87,28 @@ begin
   Result.FieldName := pvFieldName;
   Result.DataSet := pvDataSet;
   Result.FieldKind := fkData;
-  if TStringTools.stringCanName(pvFieldName) then
-  begin
+  if stringCanName(pvFieldName) then  
     Result.Name := pvDataSet.Name + pvFieldName;
+end;
+
+class function TFieldCreator.stringCanName(pvString:AnsiString): Boolean;
+var
+  i:Integer;
+begin
+  Result := False;
+  if Length(pvString) = 0 then exit;
+
+  Result := true;
+  for i := 1 to Length(pvString) do
+  begin
+    if not (pvString[i] in ['0'..'9','a'..'z', 'A'..'Z', '_']) then
+    begin
+      Result := false;
+      break;
+    end;
+    
   end;
+
 end;
 
 end.
