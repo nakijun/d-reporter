@@ -8,7 +8,7 @@ uses
   uFieldCreator, ufrmReportEditor, ComObj, uSNTools,
   uIFileAccess, uJSonTools, uFileTools, superobject, uIReporter,
   uIIntfList, Grids, DBGrids, DB, StdCtrls, Buttons, ExtCtrls, KeyStream,
-  uKeyStreamTools, uKeyStreamCoder, uMsgTools, uStdIntf, StdInterface, Menus,
+  uKeyStreamTools, uKeyStreamCoder, uMsgTools, StdInterface, Menus,
   FileLogger, uDataSetTools;
 
 type
