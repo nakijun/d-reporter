@@ -3,7 +3,7 @@ unit uDataSetTools;
 interface
 
 uses
-  DB, Classes, SysUtils, Variants, superobject;
+  DB, Classes, SysUtils, Variants, superobject, Controls;
 
 type
   TDataSetTools = class(TObject)
@@ -39,15 +39,6 @@ type
     class procedure DataSetPost(pvDataSet: TDataSet);
     class procedure DataSetEdit(pvDataSet: TDataSet);
 
-
-    class function DisableControlsAndGetBookMarkStr(pvDataSet: TDataSet): TBookmarkStr;
-    /// <summary>
-    ///   定位DataSet,BookMarkStr可以不用释放，没有内存泄漏
-    /// </summary>
-    /// <param name="pvDataSet"> (TDataSet) </param>
-    /// <param name="pvBookMarkStr"> (TBookmarkStr) </param>
-    class procedure EnableControlsAndFreeBookMarkStr(pvDataSet: TDataSet;
-        pvBookMarkStr: TBookmarkStr);
 
     class function DisableControlsAndGetBookMark(pvDataSet: TDataSet): Pointer;
     class procedure EnableControlsAndFreeBookMark(pvDataSet: TDataSet; pvBookMark:
@@ -120,6 +111,7 @@ type
     /// <param name="pvValue"> 字段值 </param>
     class procedure setDataSetFieldValue(pvDataSet: TDataSet; pvFieldName: String;
         pvValue: Variant; pvDisableControl: Boolean = true);
+    class procedure setDataSource(AControl: TControl; ADataSource: TDataSource);
   end;
 
 implementation
@@ -264,13 +256,6 @@ begin
   Result := pvDataSet.GetBookmark;
 end;
 
-class function TDataSetTools.DisableControlsAndGetBookMarkStr(
-  pvDataSet: TDataSet): TBookmarkStr;
-begin
-  pvDataSet.DisableControls;
-  Result := pvDataSet.Bookmark;
-end;
-
 class procedure TDataSetTools.EnableControlsAndFreeBookMark(pvDataSet:
   TDataSet; pvBookMark: Pointer);
 begin
@@ -285,20 +270,6 @@ begin
       pvDataSet.FreeBookmark(pvBookMark);
     end;
   except
-  end;
-  pvDataSet.EnableControls;
-end;
-
-class procedure TDataSetTools.EnableControlsAndFreeBookMarkStr(pvDataSet:
-    TDataSet; pvBookMarkStr: TBookmarkStr);
-begin
-  try
-    if (pvBookMarkStr <> '') then
-    begin
-      if pvDataSet.BookmarkValid(Pointer(pvBookMarkStr)) then
-        pvDataSet.Bookmark := pvBookMarkStr;
-    end;
-  except 
   end;
   pvDataSet.EnableControls;
 end;
@@ -514,6 +485,30 @@ begin
   finally
     if pvDisableControl then EnableControlsAndFreeBookMark(pvDataSet, lvBookMark);
   end;               
+end;
+
+class procedure TDataSetTools.setDataSource(AControl: TControl; ADataSource:
+    TDataSource);
+var
+  i: Integer;
+  DataLink: TDataLink;
+begin
+  DataLink := TDataLink(AControl.Perform(CM_GETDATALINK, 0, 0));
+  if DataLink <> nil then
+  begin
+    DataLink.DataSourceFixed := false;
+    try
+      DataLink.DataSource := ADataSource;
+    finally
+      DataLink.DataSourceFixed := true;
+    end;
+  end;
+  if AControl is TWinControl then
+    with TWinControl(AControl) do
+      for i := 0 to ControlCount - 1 do
+        if Controls[i].Tag = 0 then
+          setDataSource(Controls[i], ADataSource);
+
 end;
 
 class function TDataSetTools.Total(pvDataSet:TDataSet; pvFieldName:string;
