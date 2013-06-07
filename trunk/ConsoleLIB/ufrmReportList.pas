@@ -9,7 +9,7 @@ uses
   uIFileAccess, uJSonTools, uFileTools, superobject, uIReporter,
   uIIntfList, Grids, DBGrids, DB, StdCtrls, Buttons, ExtCtrls, KeyStream,
   uKeyStreamTools, uKeyStreamCoder, uMsgTools, StdInterface, Menus,
-  FileLogger, uDataSetTools;
+  FileLogger, uDataSetTools, System.Actions;
 
 type
   TfrmReportList = class(TForm
@@ -71,10 +71,10 @@ type
     procedure grdVMainDblClick(Sender: TObject);
   private
     { Private declarations }
-    __pass:String;
-    FLastMessage:String;
+    __pass:AnsiString;
+    FLastMessage:AnsiString;
     
-    FDefaultID:String;
+    FDefaultID:AnsiString;
 
     FDefaultOperator:IReporterDefaultOperator;
 
@@ -358,8 +358,8 @@ procedure TfrmReportList.actPreViewExecute(Sender: TObject);
 var
   lvReporter:IReporter;
 var
-  lvTempFile:String;
-  lvFileID:String;
+  lvTempFile:AnsiString;
+  lvFileID:AnsiString;
   lvData:ISuperObject;
 begin
   if cdsMain.FieldByName('FKey').AsString = '' then raise Exception.Create('没有选取任何报表!');
@@ -839,7 +839,7 @@ end;
 
 function TfrmReportList.getCurrentReporter(pvCDS: TClientDataSet): IReporter;
 var
-  lvStr:String;
+  lvStr:AnsiString;
   lvReporter:IReporter;
 begin
   if pvCDS.RecordCount = 0 then raise Exception.Create('没有设计任何报表!');
