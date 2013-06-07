@@ -36,7 +36,9 @@ uses
   uStreamCoder in '..\Utils\uStreamCoder.pas',
   uKeyStreamCoder in '..\Utils\uKeyStreamCoder.pas',
   uDataSetTools in '..\Utils\uDataSetTools.pas',
-  uSNTools in '..\Utils\uSNTools.pas';
+  uSNTools in '..\Utils\uSNTools.pas',
+  SOWrapper in '..\Utils\SOWrapper.pas',
+  ObjectGC in '..\Utils\ObjectGC.pas';
 
 {$R *.res}
 
