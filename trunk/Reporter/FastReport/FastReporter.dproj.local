@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.803,=C:\D-Reporter\Service\uReportConsoleLibWrapper.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.959,=C:\D-Reporter\Utils\uFileTools.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.334,=C:\D-Reporter\Utils\uIIntfList.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.506,C:\D-Reporter\Service\uReportConsoleLibWrapper.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.944,=C:\D-Reporter\Utils\uCore.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.865,=C:\D-Reporter\Service\uDBIntf.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.459,=C:\D-Reporter\Service\uIFileAccess.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.506,=C:\D-Reporter\Service\uLocalFileAccess.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.178,C:\D-Reporter\Service\uLocalFileAccess.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.444,=C:\D-Reporter\Service\uIBarTenderData.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.772,=C:\D-Reporter\Utils\superobject.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.444,=C:\D-Reporter\Service\StdInterface.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.397,=C:\D-Reporter\Service\uIControlLayout.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.069,=C:\D-Reporter\Utils\uCRCTools.pas</Transaction>
+  </Transactions>
+</BorlandProject>

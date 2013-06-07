@@ -1,0 +1,31 @@
+object frmShowGraphic: TfrmShowGraphic
+  Left = 0
+  Top = 0
+  Caption = 'frmShowGraphic'
+  ClientHeight = 401
+  ClientWidth = 566
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Image1: TImage
+    Left = 0
+    Top = 0
+    Width = 566
+    Height = 401
+    Align = alClient
+    AutoSize = True
+    IncrementalDisplay = True
+    Stretch = True
+    ExplicitLeft = 8
+    ExplicitTop = 8
+    ExplicitWidth = 550
+    ExplicitHeight = 385
+  end
+end

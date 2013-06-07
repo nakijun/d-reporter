@@ -1,0 +1,9 @@
+{
+   showEspecial:true,     //可以操作敏感报表
+   showAllReporter:true,  //显示所有的报表
+   operator:              //操作人员信息
+    {
+        "code":"001",
+        "name":"张三"
+    }
+}
