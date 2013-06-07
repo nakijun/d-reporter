@@ -34,7 +34,9 @@ uses
   uJSonTools in '..\Utils\uJSonTools.pas',
   KeyStream in '..\Utils\KeyStream.pas',
   uStreamCoder in '..\Utils\uStreamCoder.pas',
-  uKeyStreamCoder in '..\Utils\uKeyStreamCoder.pas';
+  uKeyStreamCoder in '..\Utils\uKeyStreamCoder.pas',
+  uDataSetTools in '..\Utils\uDataSetTools.pas',
+  uSNTools in '..\Utils\uSNTools.pas';
 
 {$R *.res}
 
