@@ -46,6 +46,23 @@ type
     /// <param name="pvDataSet"> (TDataSet) </param>
     class procedure DeleteAllRecord(pvDataSet: TDataSet; pvDisableControls: Boolean
         = true);
+    /// </returns>
+    /// <param name="pvDataSet"> (TDataSet) </param>
+    /// <param name="vData"> 写入,覆盖
+    /// {
+    ///    "field":
+    ///      {
+    ///         "name":xx,
+    ///         "caption":"pvPreName.xxx",
+    ///         "value":"xxxx"
+    ///      },
+    /// }
+    ///  </param>
+    /// <param name="pvOverlay"> 写入时是否进行覆盖 </param>
+    /// <param name="pvDictionaryINfo"> {"key":"caption"} </param>
+    class function extractRecordsData(pvDataSet: TDataSet; vData: ISuperObject;
+        pvOverlay: Boolean = true; pvDictionaryINfo: ISuperObject = nil; pvPreName:
+        String = ''): ISuperObject;
     class function JsnParseFromFile(pvFile: string; pvEncrypKey: string = ''):
         ISuperObject;
     //存储文件使用该方式进行
@@ -276,6 +293,47 @@ begin
     while pvDataSet.RecordCount > 0 do pvDataSet.Delete;
   finally
     if pvDisableControls then pvDataSet.EnableControls;
+  end;
+end;
+
+class function TJSonTools.extractRecordsData(pvDataSet: TDataSet; vData:
+    ISuperObject; pvOverlay: Boolean = true; pvDictionaryINfo: ISuperObject =
+    nil; pvPreName: String = ''): ISuperObject;
+var
+  i:Integer;
+  lvItem:ISuperObject;
+  lvField:TField;
+  lvCaption:String;
+begin
+  if vData = nil then exit;
+
+  for I := 0 to pvDataSet.FieldCount - 1 do
+  begin
+    lvField := pvDataSet.Fields[i];
+    lvItem := SO();
+    lvItem.S['name'] := lvField.FieldName;
+    lvItem.S['caption'] := lvField.DisplayLabel;
+    lvItem.S['value'] := lvField.AsString;
+    if pvDictionaryINfo <> nil then
+    begin
+      lvCaption :=pvDictionaryINfo.S[LowerCase(lvField.FieldName)];
+      if lvCaption <> '' then
+      begin
+        lvItem.S['caption'] := lvCaption;
+      end;
+    end;
+    if pvPreName <> '' then
+    begin
+      lvItem.S['caption'] := pvPreName + '.' + lvItem.S['caption'];
+    end;
+    if pvOverlay then
+    begin
+      vData.O[LowerCase(lvField.FieldName)] := lvItem;
+    end else
+    begin
+      if vData.O[LowerCase(lvField.FieldName)] = nil then
+        vData.O[LowerCase(lvField.FieldName)] := lvItem;
+    end;
   end;
 end;
 
